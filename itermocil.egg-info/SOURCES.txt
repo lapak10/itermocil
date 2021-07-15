@@ -1,0 +1,11 @@
+LICENSE.md
+NOTICE.md
+README.md
+itermocil.py
+setup.py
+itermocil.egg-info/PKG-INFO
+itermocil.egg-info/SOURCES.txt
+itermocil.egg-info/dependency_links.txt
+itermocil.egg-info/entry_points.txt
+itermocil.egg-info/requires.txt
+itermocil.egg-info/top_level.txt
