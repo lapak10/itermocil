@@ -59,7 +59,8 @@ class Itermocil(object):
         #self.applescript.append('create window with default profile')
 
         if 'pre' in self.parsed_config:
-            self.applescript.append('do shell script "' + self.parsed_config['pre'] + ';"')
+            self.applescript.append(
+                'do shell script "' + self.parsed_config['pre'] + ';"')
 
         # If we need to open a new window, then add necessary commands
         # to script.
@@ -164,7 +165,8 @@ class Itermocil(object):
                     '''.format(pp=parent, cp=child, o=split))
 
         # Link a variable to the current window.
-        self.applescript.append("set pane_1 to (current session of current window)")
+        self.applescript.append(
+            "set pane_1 to (current session of current window)")
 
         # If we have just one pane we don't need to do any splitting.
         if num_panes <= 1:
@@ -208,7 +210,8 @@ class Itermocil(object):
             self.applescript.append(create_pane(1, num_panes, "vertical"))
             for p in range(2, num_panes):
                 if p == num_panes-1:
-                    self.applescript.append(create_pane(num_panes, p, "horizontal"))
+                    self.applescript.append(
+                        create_pane(num_panes, p, "horizontal"))
                 else:
                     self.applescript.append(create_pane(p-1, p, "horizontal"))
 
@@ -225,7 +228,8 @@ class Itermocil(object):
         elif layout == 'double-main-horizontal':
 
             self.applescript.append(create_pane(1, num_panes-1, "horizontal"))
-            self.applescript.append(create_pane(num_panes-1, num_panes, "vertical"))
+            self.applescript.append(create_pane(
+                num_panes-1, num_panes, "vertical"))
             for p in range(2, num_panes-1):
                 self.applescript.append(create_pane(p-1, p, "vertical"))
 
@@ -244,7 +248,7 @@ class Itermocil(object):
         elif layout == 'tiled':
 
             vertical_splits = int(ceil((num_panes / 2.0))) - 1
-            second_columns = num_panes / 2
+            second_columns = int(num_panes / 2)
 
             for p in range(0, vertical_splits):
                 pp = (p * 2) + 1
@@ -308,53 +312,66 @@ class Itermocil(object):
         if layout == 'even-horizontal':
 
             for p in range(2, num_panes+1):
-                self.applescript.append(prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
 
             # Focus back on the first pane
-            self.applescript.append(prefix + 'keystroke "]" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "]" using command down')
 
         # 'even-vertical' layouts just split horizontally down the screen
         elif layout == 'even-vertical':
 
             for p in range(2, num_panes+1):
-                self.applescript.append(prefix + 'keystroke "D" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "D" using command down')
 
             # Focus back on the first pane
-            self.applescript.append(prefix + 'keystroke "]" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "]" using command down')
 
         # 'main-vertical' layouts have one left pane that is full height,
         # and then split the remaining panes horizontally down the right
         elif layout == 'main-vertical':
 
-            self.applescript.append(prefix + 'keystroke "d" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "d" using command down')
             for p in range(3, num_panes+1):
-                self.applescript.append(prefix + 'keystroke "D" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "D" using command down')
 
             # Focus back on the first pane
-            self.applescript.append(prefix + 'keystroke "]" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "]" using command down')
 
         # 'main-vertical-flipped' layouts have one right pane that is full height,
         # and then split the remaining panes horizontally down the left
         elif layout == 'main-vertical-flipped':
 
-            self.applescript.append(prefix + 'keystroke "d" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "d" using command down')
 
             # Focus back on the first pane
-            self.applescript.append(prefix + 'keystroke "[" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "[" using command down')
 
             for p in range(3, num_panes+1):
-                self.applescript.append(prefix + 'keystroke "D" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "D" using command down')
 
         # 'main-horizontal' layouts have one left pane  that is full height,
         # and then split the remaining panes horizontally down the right
         elif layout == 'main-horizontal':
 
-            self.applescript.append(prefix + 'keystroke "D" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "D" using command down')
             for p in range(3, num_panes+1):
-                self.applescript.append(prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
 
             # Focus back on the first pane
-            self.applescript.append(prefix + 'keystroke "]" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "]" using command down')
 
         # 'tiled' layouts create 2 columns and then however many rows as
         # needed. If there are odd number of panes then the bottom pane
@@ -365,20 +382,25 @@ class Itermocil(object):
             second_columns = num_panes / 2
 
             for p in range(0, vertical_splits):
-                self.applescript.append(prefix + 'keystroke "D" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "D" using command down')
 
             if vertical_splits > 0:
                 # If we split vertically at all then move 'down' a pane to take
                 # us back to the initial pane.
-                self.applescript.append(prefix + 'key code 125 using {command down, option down}')
+                self.applescript.append(
+                    prefix + 'key code 125 using {command down, option down}')
 
             for p in range(0, second_columns):
-                self.applescript.append(prefix + 'keystroke "d" using command down')
-                self.applescript.append(prefix + 'keystroke "]" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "]" using command down')
 
             if num_panes % 2 != 0:
                 # If odd number of panes then move once more to return to initial pane.
-                self.applescript.append(prefix + 'keystroke "]" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "]" using command down')
 
         # '3_columns' layouts create 3 columns and then however many rows as
         # needed. If there are odd number of panes then the bottom pane
@@ -389,17 +411,21 @@ class Itermocil(object):
 
             i = 1
             for p in range(0, vertical_splits):
-                self.applescript.append(prefix + 'keystroke "D" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "D" using command down')
                 i += 1
 
             while True:
-                self.applescript.append(prefix + 'keystroke "]" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "]" using command down')
                 i += 1
-                self.applescript.append(prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
                 if i >= num_panes:
                     break
                 i += 1
-                self.applescript.append(prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
                 if i >= num_panes:
                     break
 
@@ -407,25 +433,32 @@ class Itermocil(object):
         # and then split the remaining panes horizontally down the right
         elif layout == 'double-main-horizontal':
 
-            self.applescript.append(prefix + 'keystroke "d" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "d" using command down')
             if num_panes > 2:
-                self.applescript.append(prefix + 'keystroke "d" using command down')
+                self.applescript.append(
+                    prefix + 'keystroke "d" using command down')
 
             if num_panes > 3:
                 for p in range(0, num_panes-3):
-                    self.applescript.append(prefix + 'keystroke "D" using command down')
+                    self.applescript.append(
+                        prefix + 'keystroke "D" using command down')
 
         # 'double-main-vertical' layouts have two bottom panes that split the width
         # and then split the remaining panes vertically across the top
         elif layout == 'double-main-vertical':
 
-            self.applescript.append(prefix + 'keystroke "D" using command down')
-            self.applescript.append(prefix + 'keystroke "d" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "D" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "d" using command down')
 
-            self.applescript.append(prefix + 'keystroke "]" using command down')
+            self.applescript.append(
+                prefix + 'keystroke "]" using command down')
             if num_panes > 3:
                 for p in range(0, num_panes-3):
-                    self.applescript.append(prefix + 'keystroke "d" using command down')
+                    self.applescript.append(
+                        prefix + 'keystroke "d" using command down')
 
         # Raise an exception if we don't recognise the layout setting.
         else:
@@ -448,7 +481,8 @@ class Itermocil(object):
             tell_target = 'pane_%s' % pane
         else:
             # Converts numbers to 2nd, 3rd, 4th format for Applescript
-            ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+            def ordinal(n): return "%d%s" % (
+                n, "tsnrhtdd"[(n/10 % 10 != 1)*(n % 10 < 4)*n % 10::4])
             tell_target = ordinal(pane) + ' session of current terminal'
 
         # Setting the pane name is mercifully the same across both
@@ -547,7 +581,8 @@ class Itermocil(object):
                 else:
                     if self.here:
                         parsed_path = self.cwd.replace(" ", "\\\ ")
-                        base_command.append('cd {path}'.format(path=parsed_path))
+                        base_command.append(
+                            'cd {path}'.format(path=parsed_path))
                     pass
             else:
                 print('no root!')
@@ -711,7 +746,6 @@ def main():
             filepath_teamocil = os.path.join(teamocil_dir, layout + ".yml")
             if not os.path.isfile(filepath) and os.path.isfile(filepath_teamocil):
                 filepath = filepath_teamocil
-
 
     # If --edit the try to launch editor and exit
     if args.edit:

@@ -1,10 +1,14 @@
-Metadata-Version: 1.0
+Metadata-Version: 2.1
 Name: itermocil
 Version: 0.2.3
 Summary: Create pre-defined window/pane layouts and run commands in iTerm
 Home-page: https://github.com/TomAnthony/itermocil
 Author: Tom Anthony [fixed by Tuan to work with Python 3]
-Author-email: UNKNOWN
+Author-email: 
 License: MIT
-Description: UNKNOWN
 Platform: UNKNOWN
+License-File: LICENSE.md
+License-File: NOTICE.md
+
+UNKNOWN
+
