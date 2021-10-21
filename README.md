@@ -11,17 +11,9 @@ iTermocil supports iTerm 2.x and the new 3.x (including later betas). It works b
 This version of the code
 
 ```bash
-git clone git@github.com:thoangtrvn/itermocil.git
+git clone https://github.com/benjy3gg/itermocil.git
 cd itermocil
 python3 setup.py install
-```
-
-Ignore this part:
-
-```bash
-# Install `itermocil` via Homebrew
-$ brew update
-$ brew install TomAnthony/brews/itermocil
 ```
 
 Next:
